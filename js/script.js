@@ -88,7 +88,9 @@ function addPagination(list) {
   //console.log(linkList);
 
   // create an event listener on the `link-list` element
- 
+  document.getElementsByClassName("link-list").addEventListener("click", function() {
+    console.log("Hello World");
+  });
     // if the click target is a button:
       
 
