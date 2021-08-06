@@ -11,29 +11,18 @@ For assistance:
    Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
 */
 
-
-
 /*
-Create the `showPage` function
-This function will create and insert/append the elements needed to display a "page" of nine students
+`showPage` function creates elements to show 9 students
 */
 function showPage(list, page) {
-  // create two variables which will represent the index for the first and last student on the page
   let firstStudent = (page * 9) - 9;
   let lastStudent = (page * 9) - 1;
-  console.log(lastStudent);
-  console.log(firstStudent);
-  // select the element with a class of `student-list` and assign it to a variable
   let studentList = document.getElementsByClassName("student-list");
 
-  // set the innerHTML property of the variable you just created to an empty string
   studentList.innerHTML = " ";
-  // loop over the length of the `list` parameter
+ 
   for (i = 0; i < list.length; i++) {
-    // inside the loop create a conditional to display the proper students
     if (i >= firstStudent && i <= lastStudent) {
-      // inside the conditional:
-      // create the elements needed to display the student information
       let studentItem = document.createElement("LI");
       studentItem.innerHTML = `<li class="student-item cf">
         <div class="student-details">
@@ -45,62 +34,57 @@ function showPage(list, page) {
         <span class="date">Joined ${list[i].registered.date}</span>
         </div>
         </li>`  ;
-        document.querySelector(".student-list").appendChild(studentItem);
+      document.querySelector(".student-list").appendChild(studentItem);
 
-      // insert the above elements
       studentItem.insertAdjacentHTML('beforeend', studentList.innerHTML);
     }
   }
 }
 
 /*
-Create the `addPagination` function
-This function will create and insert/append the elements needed for the pagination buttons
+`addPagination` function
+Create and insert the pagination buttons and text
 */
+
 function addPagination(list) {
-  //console.log(list);
-  // create a variable to calculate the number of pages needed
   let numberPages = Math.ceil(list.length / 9);
   //console.log(numberPages);
-  // select the element with a class of `link-list` and assign it to a variable
   let linkList = document.getElementsByClassName("link-list");
-  // set the innerHTML property of the variable you just created to an empty string
   linkList.innerHTML = "";
-  console.log(linkList);
-  // loop over the number of pages needed
+
   for (i = 1; i <= numberPages; i++) {
-    // create the elements needed to display the pagination button
-    console.log(i);
     const li = document.createElement("li");
     const buttonNum = document.createElement("BUTTON");
     buttonNum.type = "button";
     buttonNum.innerHTML = `${[i]}`;
+ 
     li.appendChild(buttonNum);
     document.querySelector(".link-list").appendChild(li);
-    // insert the above elements
+
     buttonNum.insertAdjacentHTML('beforeend', linkList.innerHTML);
-    console.log(buttonNum);
   }
   // give the first pagination button a class of "active"
+  let button = document.querySelectorAll("BUTTON");
   let activeButton = document.querySelector("BUTTON");
   activeButton.className = "active";
-  //console.log(activeButton);
-  //console.log(linkList);
 
-  // create an event listener on the `link-list` element
-  document.getElementsByClassName("link-list").addEventListener("click", function() {
-    console.log("Hello World");
-  });
-    // if the click target is a button:
-      
+  linkList[0].addEventListener("click", e=> {
+    //console.log(e.target);
+    for (let i = 0;i <= button.length; i++){
+      if (e.target === button[i]){
+        //remove current student items - li - from page goes here
 
-      // remove the "active" class from the previous button
+        // end remove current student items
+        activeButton.classList.remove("active");
+        activeButton = button[i];
+        activeButton.className = "active";
 
-      // add the active class to the clicked button
-
-      // call the showPage function passing the `list` parameter and page to display as arguments
-      //showPage(data, list);  
-
+      // done: call the showPage function passing the `list` parameter and page to display as arguments - problem: appends on appends
+      console.log(i);
+      showPage(data, i+1); 
+    }
+  }
+});
 
 };
 
