@@ -18,9 +18,17 @@ function showPage(list, page) {
   let firstStudent = (page * 9) - 9;
   let lastStudent = (page * 9) - 1;
   let studentList = document.getElementsByClassName("student-list");
+  // check if studentList is empty if not, run the rest of the code
 
   studentList.innerHTML = " ";
- 
+  console.log(list);
+// check if studentList is empty if not, run the rest of the code
+if (studentList.innerHTML ==! " ") {
+  console.log("Not empty!!!");
+
+}
+
+
   for (i = 0; i < list.length; i++) {
     if (i >= firstStudent && i <= lastStudent) {
       let studentItem = document.createElement("LI");
@@ -63,6 +71,7 @@ function addPagination(list) {
 
     buttonNum.insertAdjacentHTML('beforeend', linkList.innerHTML);
   }
+
   // give the first pagination button a class of "active"
   let button = document.querySelectorAll("BUTTON");
   let activeButton = document.querySelector("BUTTON");
@@ -72,21 +81,30 @@ function addPagination(list) {
     //console.log(e.target);
     for (let i = 0;i <= button.length; i++){
       if (e.target === button[i]){
-        //remove current student items - li - from page goes here
-
+        //remove current student items - li - from page goes here, or does it?
+        document.getElementsByClassName("student-list").innerHTML = " ";
         // end remove current student items
         activeButton.classList.remove("active");
         activeButton = button[i];
         activeButton.className = "active";
+        
+        let list = document.getElementsByClassName("student-list"); // parent element (ul)
+        let listItems = list.getElementsByTagName("li");
+        for (let i = 0; ii <= button.length; i++) {
+          button[i].addEventListener("click", function () {
+            list.removeChild(this.parentNode);
+          });
+        }
+      }
 
       // done: call the showPage function passing the `list` parameter and page to display as arguments - problem: appends on appends
       console.log(i);
       showPage(data, i+1); 
     }
-  }
-});
+  });
 
 };
+
 
 
 // Call functions
