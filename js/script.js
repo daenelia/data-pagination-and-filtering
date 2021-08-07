@@ -17,34 +17,26 @@ For assistance:
 function showPage(list, page) {
   let firstStudent = (page * 9) - 9;
   let lastStudent = (page * 9) - 1;
-  let studentList = document.getElementsByClassName("student-list");
-  // check if studentList is empty if not, run the rest of the code
-
-  studentList.innerHTML = " ";
-  console.log(list);
-// check if studentList is empty if not, run the rest of the code
-if (studentList.innerHTML ==! " ") {
-  console.log("Not empty!!!");
-
-}
-
-
+  const studentList = document.getElementsByClassName("student-list");
+  // clears the page so the new list can be generated and shown
+  studentList[0].innerHTML = '';
+    
   for (i = 0; i < list.length; i++) {
     if (i >= firstStudent && i <= lastStudent) {
       let studentItem = document.createElement("LI");
-      studentItem.innerHTML = `<li class="student-item cf">
-        <div class="student-details">
-        <img class="avatar" src="${list[i].picture.large} " alt="Profile Picture">
-        <h3>${list[i].name.first} ${list[i].name.last}</h3>
-        <span class="email">${list[i].email}</span>
-        </div>
-        <div class="joined-details">
-        <span class="date">Joined ${list[i].registered.date}</span>
-        </div>
-        </li>`  ;
-      document.querySelector(".student-list").appendChild(studentItem);
+      studentItem.className = "student-item cf";
+      studentList[0].appendChild(studentItem);
+      
+      studentItem.innerHTML = `<div class="student-details">
+      <img class="avatar" src="${list[i].picture.large} " alt="Profile Picture">
+      <h3>${list[i].name.first} ${list[i].name.last}</h3>
+      <span class="email">${list[i].email}</span>
+      </div>
+      <div class="joined-details">
+      <span class="date">Joined ${list[i].registered.date}</span>
+      </div>`;
 
-      studentItem.insertAdjacentHTML('beforeend', studentList.innerHTML);
+      studentItem.insertAdjacentHTML('beforeend', '');
     }
   }
 }
@@ -56,7 +48,6 @@ Create and insert the pagination buttons and text
 
 function addPagination(list) {
   let numberPages = Math.ceil(list.length / 9);
-  //console.log(numberPages);
   let linkList = document.getElementsByClassName("link-list");
   linkList.innerHTML = "";
 
@@ -72,40 +63,24 @@ function addPagination(list) {
     buttonNum.insertAdjacentHTML('beforeend', linkList.innerHTML);
   }
 
-  // give the first pagination button a class of "active"
+  // set the first button to active
   let button = document.querySelectorAll("BUTTON");
   let activeButton = document.querySelector("BUTTON");
   activeButton.className = "active";
 
   linkList[0].addEventListener("click", e=> {
-    //console.log(e.target);
     for (let i = 0;i <= button.length; i++){
       if (e.target === button[i]){
-        //remove current student items - li - from page goes here, or does it?
-        document.getElementsByClassName("student-list").innerHTML = " ";
-        // end remove current student items
+
         activeButton.classList.remove("active");
         activeButton = button[i];
         activeButton.className = "active";
-        
-        let list = document.getElementsByClassName("student-list"); // parent element (ul)
-        let listItems = list.getElementsByTagName("li");
-        for (let i = 0; ii <= button.length; i++) {
-          button[i].addEventListener("click", function () {
-            list.removeChild(this.parentNode);
-          });
-        }
+       
+        showPage(data, i+1);
       }
-
-      // done: call the showPage function passing the `list` parameter and page to display as arguments - problem: appends on appends
-      console.log(i);
-      showPage(data, i+1); 
     }
   });
-
 };
-
-
 
 // Call functions
 showPage(data, 1);
